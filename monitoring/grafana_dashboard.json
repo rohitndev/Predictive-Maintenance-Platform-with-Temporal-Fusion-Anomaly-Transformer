@@ -1,0 +1,66 @@
+{
+  "annotations": { "list": [] },
+  "title": "Predictive Maintenance — Asset Health & RUL",
+  "tags": ["predictive-maintenance", "rul", "anomaly", "iiot"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "panels": [
+    {
+      "id": 1,
+      "title": "Fleet RUL (P50) by Asset",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "fieldConfig": { "defaults": { "unit": "h", "custom": { "drawStyle": "line" } } },
+      "description": "Median Remaining Useful Life per asset over time."
+    },
+    {
+      "id": 2,
+      "title": "RUL Confidence Band (P10 / P50 / P90)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "fieldConfig": { "defaults": { "unit": "h" } },
+      "description": "Probabilistic RUL interval from the Temporal Fusion Transformer."
+    },
+    {
+      "id": 3,
+      "title": "Anomaly Score Heatmap",
+      "type": "heatmap",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "description": "Per-asset Anomaly Transformer scores; bright cells = anomalous."
+    },
+    {
+      "id": 4,
+      "title": "Assets Below 48h Maintenance Horizon",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 6, "x": 12, "y": 8 },
+      "fieldConfig": { "defaults": { "thresholds": { "steps": [
+        { "color": "green", "value": null },
+        { "color": "red", "value": 1 }
+      ] } } },
+      "description": "Count of assets that triggered a CMMS work order."
+    },
+    {
+      "id": 5,
+      "title": "Physics vs ML RUL Agreement",
+      "type": "gauge",
+      "gridPos": { "h": 8, "w": 6, "x": 18, "y": 8 },
+      "fieldConfig": { "defaults": { "min": 0, "max": 1, "unit": "percentunit" } },
+      "description": "Digital-twin consistency between physics baseline and TFT."
+    },
+    {
+      "id": 6,
+      "title": "OEE Impact (Estimated)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 16 },
+      "fieldConfig": { "defaults": { "unit": "percent" } },
+      "description": "Estimated Overall Equipment Effectiveness uplift from avoided downtime."
+    }
+  ],
+  "templating": {
+    "list": [
+      { "name": "asset", "type": "query", "query": "SHOW TAG VALUES WITH KEY = asset_id" }
+    ]
+  }
+}

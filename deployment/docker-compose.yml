@@ -1,0 +1,56 @@
+# Local orchestration: serving API + monitoring stack (InfluxDB + Grafana).
+# Usage (from project root):
+#   docker compose -f deployment/docker-compose.yml up --build
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    image: predictive-maintenance/api:latest
+    container_name: pdm-api
+    ports:
+      - "8000:8000"
+    environment:
+      # Optional cloud integrations — leave blank to run fully offline.
+      INFLUXDB_URL: ${INFLUXDB_URL:-}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN:-}
+      INFLUXDB_ORG: ${INFLUXDB_ORG:-}
+      INFLUXDB_BUCKET: ${INFLUXDB_BUCKET:-sensors}
+      AWS_S3_BUCKET: ${AWS_S3_BUCKET:-}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      MLFLOW_TRACKING_URI: ${MLFLOW_TRACKING_URI:-}
+    volumes:
+      - ../artifacts:/app/artifacts
+    restart: unless-stopped
+
+  influxdb:
+    image: influxdb:2.7
+    container_name: pdm-influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: admin12345
+      DOCKER_INFLUXDB_INIT_ORG: pdm
+      DOCKER_INFLUXDB_INIT_BUCKET: sensors
+    volumes:
+      - influx-data:/var/lib/influxdb2
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: pdm-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ../monitoring/grafana_dashboard.json:/etc/grafana/provisioning/dashboards/pdm.json
+    depends_on:
+      - influxdb
+
+volumes:
+  influx-data:
+  grafana-data:

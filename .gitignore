@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment / secrets
+.env
+*.tfvars
+!*.tfvars.example
+
+# Model artifacts & data
+artifacts/
+data/raw/*.txt
+data/raw/*.parquet
+*.pt
+*.ckpt
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Logs
+*.log
+logs/
+
+# DVC
+/mlops/.dvc/cache
+
+# Exclude specific files
+SAMPLE_README.md
+*.pdf

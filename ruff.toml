@@ -1,0 +1,14 @@
+# Ruff linter configuration.
+line-length = 100
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+ignore = [
+    "E501",   # line length handled by formatter
+    "B008",   # FastAPI uses function calls in argument defaults (Depends)
+]
+
+[lint.per-file-ignores]
+"__init__.py" = ["F401"]   # re-exports
+"tests/*" = ["F811"]       # pytest fixtures shadow names

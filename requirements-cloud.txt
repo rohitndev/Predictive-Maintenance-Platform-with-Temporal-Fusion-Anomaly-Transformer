@@ -1,0 +1,31 @@
+# Optional integrations. Install only the ones you need — the platform runs
+# without any of these (graceful fallbacks are built in).
+#   pip install -r requirements-cloud.txt
+
+# Time-series sensor database
+influxdb-client>=1.40
+
+# Stream processing / large-scale feature engineering
+pyspark>=3.5
+tsfresh>=0.20
+
+# CMMS LLM agent (Groq + LangChain)
+langchain-core>=0.2
+langchain-groq>=0.1
+
+# Experiment tracking & model registry
+wandb>=0.16
+mlflow>=2.11
+
+# Orchestration & data versioning
+apache-airflow>=2.8
+dvc>=3.0
+
+# Serverless serving adapter
+mangum>=0.17
+
+# Acoustic anomaly modality (MIMII)
+librosa>=0.10
+
+# Visualization (notebooks)
+matplotlib>=3.8

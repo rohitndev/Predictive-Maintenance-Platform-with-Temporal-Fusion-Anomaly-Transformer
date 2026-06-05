@@ -1,0 +1,9 @@
+{
+  "venvPath": ".",
+  "venv": "venv",
+  "extraPaths": ["."],
+  "reportMissingImports": "none",
+  "reportAttributeAccessIssue": "warning",
+  "reportOptionalMemberAccess": "none",
+  "exclude": ["venv", "**/__pycache__", "artifacts"]
+}

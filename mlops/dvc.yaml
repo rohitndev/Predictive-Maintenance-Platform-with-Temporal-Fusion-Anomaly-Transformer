@@ -1,0 +1,31 @@
+# DVC pipeline for reproducible dataset & model versioning.
+# Run with:  dvc repro   (requires `pip install dvc`)
+stages:
+  generate_data:
+    cmd: python -m data.cmapss_loader
+    deps:
+      - ../data/cmapss_loader.py
+      - ../data/synthetic_generator.py
+    outs:
+      - ../data/raw/dataset.parquet:
+          cache: true
+          persist: true
+
+  train_tft:
+    cmd: python -m src.models.train_tft
+    deps:
+      - ../src/models/tft.py
+      - ../src/models/train_tft.py
+    outs:
+      - ../artifacts/models/tft.pt
+    metrics:
+      - ../artifacts/metrics/tft_metrics.json:
+          cache: false
+
+  train_anomaly:
+    cmd: python -m src.models.train_anomaly
+    deps:
+      - ../src/models/anomaly_transformer.py
+      - ../src/models/train_anomaly.py
+    outs:
+      - ../artifacts/models/anomaly.pt

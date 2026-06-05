@@ -1,0 +1,8 @@
+# Copy to terraform.tfvars (git-ignored) and fill in. All optional — defaults
+# are sensible. Credentials are read from the standard AWS provider chain
+# (env vars / ~/.aws/credentials), so do NOT hard-code keys here.
+
+aws_region  = "us-east-1"
+app_name    = "predictive-maintenance"
+environment = "dev"
+image_tag   = "latest"
